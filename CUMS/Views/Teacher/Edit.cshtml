@@ -1,0 +1,141 @@
+﻿@model CUMS.Models.Teacher
+@{
+    Layout = Layout;
+    ViewData["Title"] = "Teacher";
+
+    ViewData["TeacherRoot"] = "nav-expanded nav-active";
+    ViewData["TeacherExpanded"] = "nav-expanded";
+    ViewData["TeacherAdd"] = "nav-active";
+}
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">@ViewData["Title"] Form</h2>
+    </header>
+    <div class="panel-body">
+        <form id="form" class="form-horizontal form-bordered" method="post" asp-action="Index">
+            @if (ViewData["Message"] != null)
+            {
+                @Html.Raw(ViewData["Message"])
+            }
+            @Html.HiddenFor(model => model.Id)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="col-md-3 control-label"></label>
+                <div class="col-md-6">
+                    <div class="input-group mb-md">
+                        <span class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        <input type="text" asp-for="Name" class="form-control" placeholder="Username">
+                    </div>
+                </div>
+                <span asp-validation-for="Name" class="text-danger alert-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-3 control-label" for="inputTooltip">Email</label>
+                <div class="col-md-6">
+                    <div class="input-group mb-md">
+                        <span class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <input type="text" asp-for="Email" class="form-control" placeholder="Email">
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger alert-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label" asp-for="Address">Address</label>
+                <div class="col-md-6">
+                    <textarea class="form-control" rows="3" id="textareaDefault" asp-for="Address"></textarea>
+                </div>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Contact" class="col-md-3 control-label">Phone</label>
+                <div class="col-md-6 control-label">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                        <input id="phone" asp-for="Contact" data-plugin-masked-input data-input-mask="(+880) 999-9999-999"
+                               placeholder="(123) 123-1234-123" class="form-control">
+                    </div>
+                </div>
+                <span asp-validation-for="Contact" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(l => l.CreditTaken, "Credit To be Taken", new { @class = "col-md-3 control-label" })
+                <div class="col-md-6">
+                    <div data-plugin-spinner data-plugin-options='{ "value":0, "min": 0.5, "max": 5.0 }'>
+                        <div class="input-group">
+                            <input type="text" class="spinner-input form-control" asp-for="CreditTaken" maxlength="3" readonly />
+                            <div class="spinner-buttons input-group-btn">
+                                <button type="button" class="btn btn-default spinner-up">
+                                    <i class="fa fa-angle-up"></i>
+                                </button>
+                                <button type="button" class="btn btn-default spinner-down">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        with <code>max</code> value set to 5.0
+                    </p>
+                </div>
+                <span asp-validation-for="CreditTaken" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="DesignationId" class="col-md-3 control-label">Semester</label>
+                <div class="col-md-6">
+                    <select asp-for="DesignationId" asp-items="ViewBag.Designation" data-plugin-selectTwo class="form-control populate">
+                        <option value="">-- Select Designation --</option>
+                    </select>
+                </div>
+                <span asp-validation-for="DesignationId" class="text-danger alert-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DepartmentId, "Department", new { @class = "col-md-3 control-label" })
+                <div class="col-md-6">
+                    @*<select asp-for="DepartmentId" asp-items="ViewBag.Department" data-plugin-selectTwo class="form-control populate">
+                            <option value="">-- Select Department --</option>
+                        </select>*@
+                    @Html.DropDownListFor(model => model.DepartmentId, new SelectList(ViewBag.Department, "Value", "Text"), "--Select--"
+                                            ,new { @class = "form-control populate" })
+                </div>
+                <span asp-validation-for="DepartmentId" class="text-danger alert-danger"></span>
+            </div>
+
+            @*<div class="form-group">
+                    <label class="control-label col-md-3">Status</label>
+                    <div class="col-md-9">
+                        <div class="switch switch-primary">
+                            <input type="checkbox" name="switch" data-plugin-ios-switch checked="checked" />
+                        </div>
+                    </div>
+                </div>*@
+
+
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <button type="reset" class="btn btn-default">Reset</button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </div>
+</section>

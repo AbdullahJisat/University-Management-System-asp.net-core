@@ -1,0 +1,76 @@
+﻿<!-- start: sidebar -->
+<aside id="sidebar-left" class="sidebar-left">
+
+    <div class="sidebar-header">
+        <div class="sidebar-title">
+            Navigation
+        </div>
+        <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+            <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
+    </div>
+
+    <div class="nano">
+        <div class="nano-content">
+            <nav id="menu" class="nav-main" role="navigation">
+                <ul class="nav nav-main">
+                    <li>
+                        <a href="~/index.html">
+                            @*<a href="@Url.Action("Home","Home")">*@
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    @*<li class="nav-parent @ViewBag.DepartmentRoot">*@
+                    <li class="nav-parent @ViewData["DepartmentRoot"]">
+                        <a>
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                            <span>Departments</span>
+                        </a>
+                        <ul class="nav nav-children">
+
+                            @*<li class="nav-parent @ViewBag.DepartmentExpanded">*@
+                            @*<li class="nav-parent @ViewData["DepartmentExpanded"]">
+                                <a>Department</a>
+                                <ul class="nav nav-children">
+                                    @*<li class="@ViewBag.DepartmentAdd">*@
+                            <li class="@ViewData["DepartmentAdd"]">
+                                <a href="@Url.Action("Index","Department")">Add New Department</a>
+                            </li>
+                            <li class="@ViewData["RoomAdd"]">
+                                <a href="@Url.Action("Index","Room")">Add New Room</a>
+                            </li>
+                            <li class="@ViewData["SemesterAdd"]">
+                                <a class="nav-link" href="@Url.Action("Index","Semester")">
+                                    <i class="fas fa-sitemap"></i>
+                                    <span>Semester</span>
+                                </a>
+                            </li>
+                            <li class="@ViewData["CourseAssign"]">
+                                <a href="@Url.Action("AssignCourseToTeacher","Teacher")">Assign Course To Teacher</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-parent @ViewData["TeacherRoot"]">
+                        <a>
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                            <span>Teachers</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="@ViewData["DesignationAdd"]">
+                                <a href="@Url.Action("Index","Designation")">Add New Designation</a>
+                            </li>
+                            <li class="@ViewData["TeacherAdd"]">
+                                <a href="@Url.Action("Index","Teacher")">Add New Teacher</a>
+                            </li>
+                        </ul>
+                    </li>
+               </ul>
+            </nav>
+            <hr class="separator" />
+        </div>
+    </div>
+</aside>
+<!-- end: sidebar -->

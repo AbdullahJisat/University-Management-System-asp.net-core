@@ -1,0 +1,84 @@
+﻿@{
+    Layout = Layout;
+    ViewData["Title"] = "Teacher";
+    ViewData["TeacherActive"] = "active";
+
+    //ViewBag.DepartmentRoot = "nav-expanded nav-active";
+    //ViewBag.DepartmentExpanded = "nav-expanded";
+    //ViewBag.DepartmentAdd = "nav-active";
+
+    ViewData["TeacherRoot"] = "nav-expanded nav-active";
+    ViewData["TeacherExpanded"] = "nav-expanded";
+    ViewData["TeacherAdd"] = "nav-active";
+}
+<section class="panel" id="view">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">@ViewData["Title"] Table</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover mb-none" id="datatable-tabletools" data-swf-path="assets/vendor/jquery-datatables/extras/TableTools/swf/copy_csv_xls_pdf.swf">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Credit</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Action By</th>
+                        <th>Action Done</th>
+                        <th>Action Date</th>
+                        <th>Is Delete</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Teachers != null)
+                    {
+                        int count = 1;
+                        foreach (Teacher teacher in ViewBag.Teachers)
+                        {
+                            <tr>
+                                <td>@(count++)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.Address)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.Email)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.Contact)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.CreditTaken)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.DepartmentId)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.DesignationId)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.ActionBy)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.Action)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.ActionDate)</td>
+                                <td>@Html.DisplayFor(modelItem => teacher.IsDelete)</td>
+                                <td class="center hidden-phone">
+                                    <a href="@Url.Action("Edit","Teacher", new{ id=teacher.Id })">
+                                        <i class="fas fa-edit" style="color: green"></i>
+                                    </a> |
+                                    <a class="confirmation" asp-action="Delete" asp-route-id="@teacher.Id"><i class="fas fa-trash-alt" style="color: red"></i>Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+    $('.confirmation').on('click', function () {
+        return confirm('Are you sure?');
+    });
+    </script>
+}
+<partial name="Save" /> 

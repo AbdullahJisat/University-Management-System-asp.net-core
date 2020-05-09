@@ -1,0 +1,60 @@
+﻿@model CUMS.Models.Course
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+    @using (Html.BeginForm("Edit", "Course", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Department</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Code)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Credit)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Credit)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId)
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DepartmentId, new SelectList(ViewBag.Department, "Value", "Text"))
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SemesterId)
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SemesterId, new SelectList(ViewBag.Semester, "Value", "Text"))
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }
+</body>
+</html>

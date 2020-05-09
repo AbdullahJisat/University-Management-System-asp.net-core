@@ -1,0 +1,46 @@
+﻿@model CUMS.Models.Semester
+@{
+    Layout = Layout;
+    ViewData["Title"] = "Semester";
+}
+<section class="panel" id="add">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">@ViewData["Title"] Edit Form</h2>
+    </header>
+    <div class="panel-body">
+        <form id="form" class="form-horizontal form-bordered" method="post" asp-action="Edit">
+            @if (ViewData["Message"] != null)
+            {
+                @Html.Raw(ViewData["Message"])
+            }
+            @Html.HiddenFor(model => model.Id)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Name" class="col-md-3 control-label"></label>
+                <div class="col-md-6">
+                    <div class="input-group mb-md">
+                        @*<span class="input-group-addon"></span>*@
+                        <input asp-for="Name" class="form-control" type="text" title="" data-toggle="tooltip"
+                               data-trigger="hover" data-original-title="Place your Department Code here" id="inputTooltip">
+                    </div>
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <button type="reset" class="btn btn-default">Reset</button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </div>
+</section>   

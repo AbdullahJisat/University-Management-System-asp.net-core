@@ -1,0 +1,167 @@
+﻿@model CUMS.Models.CourseAssign
+@{
+    Layout = Layout;
+    ViewData["Title"] = "AssignCourseToTeacher";
+
+    ViewData["TeacherRoot"] = "nav-expanded nav-active";
+    ViewData["CourseAssign"] = "nav-active";
+}
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">@ViewData["Title"] Form</h2>
+    </header>
+    <div class="panel-body">
+        <form id="form" class="form-horizontal form-bordered" method="post" asp-action="AssignCourseToTeacher" asp-controller="Teacher">
+            @if (ViewData["Message"] != null)
+            {
+                @Html.Raw(ViewData["Message"])
+            }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Department</label>
+                <div class="col-md-6">
+                    @*<select asp-for="DepartmentId" asp-items="ViewBag.Department" data-plugin-selectTwo class="form-control populate">
+                            <option value="">-- Select Department --</option>
+                        </select>*@
+                    @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Department, "Value", "Text"),
+                   "--Select--", new { @class = "form-control populate" })
+                </div>
+                <span class="text-danger alert-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TeacherId" class="col-md-3 control-label">Teacher</label>
+                <div class="col-md-6">
+                    <select asp-for="TeacherId" id="TeacherId" data-plugin-selectTwo class="form-control populate">
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
+                <span asp-validation-for="TeacherId" class="text-danger alert-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Credit to be Taken</label>
+                <div class="col-md-6">
+                    <input type="text" id="creditTaken" class="form-control" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Remaining Credit</label>
+                <div class="col-md-6">
+                    <input type="text" id="remainingCredit" class="form-control" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CourseId" class="col-md-3 control-label">Course Code</label>
+                <div class="col-md-6">
+                    <select asp-for="CourseId" id="CourseId" data-plugin-selectTwo class="form-control populate">
+                        <option value="">-- Select Designation --</option>
+                    </select>
+                </div>
+                <span asp-validation-for="CourseId" class="text-danger alert-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Course Name</label>
+                <div class="col-md-6">
+                    <input type="text" id="courseName" class="form-control" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Course Credit</label>
+                <div class="col-md-6">
+                    <input type="text" id="credit" class="form-control" readonly="readonly">
+                </div>
+            </div>
+
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <button type="reset" class="btn btn-default">Reset</button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </div>
+</section>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    //for load teacher by department
+        $(document).ready(function() {
+
+            $("#DepartmentId").change(function() {
+                var departmentId = $("#DepartmentId").val();
+                
+                $("#TeacherId").empty();
+                $("#creditTaken").val("");
+                $("#remainingCredit").val("");
+                $("#courseName").val("");
+                $("#credit").val("");
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllTeacherByDepartment", "Teacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: { departmentId: departmentId },
+                    traditional:true,
+                    success: function (data) {
+                        console.log(data);
+                        $("#TeacherId").empty();
+                        $.each(data, function (key, value) {
+                            $("#TeacherId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        @* load teacher and course after click department *@
+
+        
+
+        //get course by department
+        $(document).ready(function() {
+
+            $("#DepartmentId").change(function() {
+                var departmentId = $("#DepartmentId").val();
+                var json = { deptId: departmentId };
+
+                $("#CourseId").empty();
+                $("#creditTaken").val("");
+                $("#remainingCredit").val("");
+                $("#courseName").val("");
+                $("#credit").val("");
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllCourseByDepartment", "Teacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+                        $("#CourseId").empty();
+                        $.each(data, function (key, value) {
+                            $("#CourseId").append('<option value=' + value.Id + '>' + value.Code + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

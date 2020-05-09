@@ -1,0 +1,68 @@
+﻿@{
+    Layout = Layout;
+    ViewData["Title"] = "Room";
+
+    ViewData["DepartmentRoot"] = "nav-expanded nav-active";
+    ViewData["RoomExpanded"] = "nav-expanded";
+    ViewData["RoomAdd"] = "nav-active";
+}
+<section class="panel" id="view">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">@ViewData["Title"] Table</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover mb-none" id="datatable-tabletools" data-swf-path="assets/vendor/jquery-datatables/extras/TableTools/swf/copy_csv_xls_pdf.swf">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Action By</th>
+                        <th>Action Done</th>
+                        <th>Action Date</th>
+                        <th>Is Delete</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Rooms != null)
+                    {
+                        int count = 1;
+                        foreach (Room room in ViewBag.Rooms)
+                        {
+                            <tr>
+                                <td>@(count++)</td>
+                                <td>@Html.DisplayFor(modelItem => room.RoomNo)</td>
+                                <td>@Html.DisplayFor(modelItem => room.ActionBy)</td>
+                                <td>@Html.DisplayFor(modelItem => room.Action)</td>
+                                <td>@Html.DisplayFor(modelItem => room.ActionDate)</td>
+                                <td>@Html.DisplayFor(modelItem => room.IsDelete)</td>
+                                <td class="center hidden-phone">
+                                    <a href="@Url.Action("Edit","Room", new{ id=room.Id })">
+                                        <i class="fas fa-edit" style="color: green"></i>
+                                    </a> |
+                                    <a class="confirmation" asp-action="Delete" asp-route-id="@room.Id">
+                                    <i class="fas fa-trash-alt" style="color: red"></i>Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $('.confirmation').on('click', function () {
+            return confirm('Are you sure?');
+        });
+    </script>
+}
+<partial name="Save" />

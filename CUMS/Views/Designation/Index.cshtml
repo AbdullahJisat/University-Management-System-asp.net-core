@@ -1,0 +1,70 @@
+﻿@{
+    Layout = Layout;
+    ViewData["Title"] = "Designation";
+    ViewData["DesignationActive"] = "active";
+
+    //ViewBag.DepartmentRoot = "nav-expanded nav-active";
+    //ViewBag.DepartmentExpanded = "nav-expanded";
+    //ViewBag.DepartmentAdd = "nav-active";
+
+    ViewData["TeacherRoot"] = "nav-expanded nav-active";
+    ViewData["DesignationExpanded"] = "nav-expanded";
+    ViewData["DesignationAdd"] = "nav-active";
+}
+<section class="panel" id="view">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">@ViewData["Title"] Table</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover mb-none" id="datatable-tabletools" data-swf-path="assets/vendor/jquery-datatables/extras/TableTools/swf/copy_csv_xls_pdf.swf">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Action By</th>
+                        <th>Action Done</th>
+                        <th>Action Date</th>
+                        <th>Is Delete</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Designations != null)
+                    {
+                        int count = 1;
+                        foreach (Designation designation in ViewBag.Designations)
+                        {
+                            <tr>
+                                <td>@(count++)</td>
+                                <td>@Html.DisplayFor(modelItem => designation.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => designation.ActionBy)</td>
+                                <td>@Html.DisplayFor(modelItem => designation.Action)</td>
+                                <td>@Html.DisplayFor(modelItem => designation.ActionDate)</td>
+                                <td>@Html.DisplayFor(modelItem => designation.IsDelete)</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Designation", new { id = designation.Id }, null)|
+                                    <a asp-action="Delete" asp-route-id="@designation.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $('.confirmation').on('click', function () {
+            return confirm('Are you sure?');
+        });
+    </script>
+}
+<partial name="Save" />
